@@ -1,9 +1,18 @@
 package TKK;
 
 
-
 public class Scanner {
-    private String input; // wejście do zeskanowania
+    private static final int TOK_EOF = 0; // koniec pliku
+    private static final int TOK_NUM = 1; // liczba całkowita
+    private static final int TOK_IDENT = 2; // identyfikator
+    private static final int TOK_ADD = 3; // dodawanie
+    private static final int TOK_SUB = 4; // odejmowanie
+    private static final int TOK_MUL = 5; // mnożenie
+    private static final int TOK_DIV = 6; // dzielenie
+    private static final int TOK_LPAREN = 7; // otwierający nawias
+    private static final int TOK_RPAREN = 8; // zamykający nawias
+
+    private final String input; // wejście do zeskanowania
     private int currentPosition; // bieżąca pozycja w wejściu
     private int currentColumn; // bieżąca kolumna w wejściu
 
@@ -44,7 +53,7 @@ public class Scanner {
         skipWhitespace();
         char currentChar = getCurrentChar();
         if (currentChar == '\0') {
-            return new Token(ScannerGUI.TOK_EOF, "");
+            return new Token(TOK_EOF, "");
         } else if (Character.isDigit(currentChar)) {
             // Skanujemy liczbę całkowitą
             StringBuilder sb = new StringBuilder();
@@ -53,7 +62,7 @@ public class Scanner {
                 advance();
                 currentChar = getCurrentChar();
             } while (Character.isDigit(currentChar));
-            return new Token(ScannerGUI.TOK_NUM, sb.toString());
+            return new Token(TOK_NUM, sb.toString());
         } else if (Character.isLetter(currentChar)) {
             // Skanujemy identyfikator
             StringBuilder sb = new StringBuilder();
@@ -62,33 +71,43 @@ public class Scanner {
                 advance();
                 currentChar = getCurrentChar();
             } while (Character.isLetterOrDigit(currentChar));
-            return new Token(ScannerGUI.TOK_IDENT, sb.toString());
+            return new Token(TOK_IDENT, sb.toString());
         } else {
             // Skanujemy operator lub nawias
             switch (currentChar) {
-                case '+':
+                case '+' -> {
                     advance();
-                    return new Token(ScannerGUI.TOK_ADD, "+");
-                case '-':
+                    return new Token(TOK_ADD, "+");
+                }
+                case '-' -> {
                     advance();
-                    return new Token(ScannerGUI.TOK_SUB, "-");
-                case '*':
+                    return new Token(TOK_SUB, "-");
+                }
+                case '*' -> {
                     advance();
-                    return new Token(ScannerGUI.TOK_MUL, "*");
-                case '/':
+                    return new Token(TOK_MUL, "*");
+                }
+                case '/' -> {
                     advance();
-                    return new Token(ScannerGUI.TOK_DIV, "/");
-                case '(':
+                    return new Token(TOK_DIV, "/");
+                }
+                case '(' -> {
                     advance();
-                    return new Token(ScannerGUI.TOK_LPAREN, "(");
-                case ')':
+                    return new Token(TOK_LPAREN, "(");
+                }
+                case ')' -> {
                     advance();
-                    return new Token(ScannerGUI.TOK_RPAREN, ")");
-                default:
-                    // W przypadku nieznanych znaków rzuca wyjątek z lokalizacją błędu
-                    throw new ScanException("Nieznany znak: " + currentChar, currentColumn);
+                    return new Token(TOK_RPAREN, ")");
+                }
+                default ->
+                        // W przypadku nieznanych znaków rzuca wyjątek z lokalizacją błędu
+                        throw new ScanException("Nieznany znak: " + currentChar, currentColumn);
             }
         }
+    }
+
+    public static int getTokEof() {
+        return TOK_EOF;
     }
 
 }

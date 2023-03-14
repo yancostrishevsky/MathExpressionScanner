@@ -1,9 +1,8 @@
 package TKK;
+
 public class Token {
-    private int code; // kod tokenu
-    private String value; // wartość tokenu
-
-
+    private final int code; // kod tokenu
+    private final String value; // wartość tokenu
 
     public Token(int code, String value) {
         this.code = code;
@@ -23,41 +22,19 @@ public class Token {
         return "(" + this.codeToString() + ", " + value + ")";
     }
 
-    public String codeToString(){
-        String tokenValue;
+    public String codeToString() {
 
-        switch (this.code) {
-            case 0:
-                tokenValue = "koniec pliku";
-                break;
-            case 1:
-                tokenValue = "liczba całkowita";
-                break;
-            case 2:
-                tokenValue = "identyfikator";
-                break;
-            case 3:
-                tokenValue = "dodawanie";
-                break;
-            case 4:
-                tokenValue = "odejmowanie";
-                break;
-            case 5:
-                tokenValue = "mnożenie";
-                break;
-            case 6:
-                tokenValue = "dzielenie";
-                break;
-            case 7:
-                tokenValue = "otwierający nawias";
-                break;
-            case 8:
-                tokenValue = "zamykający nawias";
-                break;
-            default:
-                tokenValue = "UNKNOWN_TOKEN_TYPE";
-                break;
-        }
-        return tokenValue;
+        return switch (this.code) {
+            case 0 -> "koniec pliku";
+            case 1 -> "liczba całkowita";
+            case 2 -> "identyfikator";
+            case 3 -> "dodawanie";
+            case 4 -> "odejmowanie";
+            case 5 -> "mnożenie";
+            case 6 -> "dzielenie";
+            case 7 -> "otwierający nawias";
+            case 8 -> "zamykający nawias";
+            default -> "UNKNOWN_TOKEN_TYPE";
+        };
     }
 }
