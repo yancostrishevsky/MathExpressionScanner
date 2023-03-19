@@ -5,8 +5,8 @@ public class Token {
     public enum Type {
         KEYWORD(Pattern.compile("if|else|for|while|do|switch|case|break|continue|return")),
         OPERATOR(Pattern.compile("\\+|-|\\*|/|%|=|==|!=|>|>=|<|<=|&&|\\|\\|")),
-        IDENTIFIER(null),
-        LITERAL(Pattern.compile("\\d+|\".*\""));
+        IDENTIFIER(Pattern.compile("[a-zA-Z_$][a-zA-Z_$0-9]*")),
+        LITERAL(Pattern.compile("\\d+|\".*\"|\\(.*\\)|"));
 
         private final Pattern pattern;
 
